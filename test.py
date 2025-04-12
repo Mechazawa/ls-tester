@@ -39,7 +39,7 @@ def main():
     
     ser.reset_input_buffer()
 
-    reset()
+    reset(ser)
     
     had_diff = False
     with open(infile, "r") as f:
@@ -80,7 +80,7 @@ def main():
             # Print response line
             print(f"<- {prefix}{highlighted}")
 
-    reset()
+    reset(ser)
     ser.close()
     
     if had_diff:
