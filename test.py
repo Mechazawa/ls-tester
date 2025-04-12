@@ -18,7 +18,7 @@ def highlight_diff(sent, received):
             out.append(r_char)
     return (is_diff, "".join(out))
 
-def reset():
+def reset(ser):
     while True:
         ser.write(b"R\r\n")
         time.sleep(0.1)
