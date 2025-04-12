@@ -77,6 +77,7 @@ def main():
             # Print response line
             print(f"<- {prefix}{highlighted}")
 
+    ser.write(b"R\r\n")
     ser.close()
     
     if had_diff:
