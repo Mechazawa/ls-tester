@@ -18,6 +18,15 @@ def highlight_diff(sent, received):
             out.append(r_char)
     return (is_diff, "".join(out))
 
+def reset():
+    while True:
+        ser.write(b"R\r\n")
+        time.sleep(0.1)
+        device_line = ser.read_until(b"\n").decode(errors="ignore").rstrip("\r\n")
+        if device_line:
+            print(device_line)
+            break
+
 def main():
     if len(sys.argv) < 3:
         print(f"Usage: {sys.argv[0]} /dev/ttyXXX test.dat")
@@ -30,14 +39,8 @@ def main():
     
     ser.reset_input_buffer()
 
-    while True:
-        ser.write(b"R\r\n")
-        time.sleep(0.1)
-        device_line = ser.read_until(b"\n").decode(errors="ignore").rstrip("\r\n")
-        if device_line:
-            print(device_line)
-            break
-        
+    reset()
+    
     had_diff = False
     with open(infile, "r") as f:
         for line in f:
@@ -77,7 +80,7 @@ def main():
             # Print response line
             print(f"<- {prefix}{highlighted}")
 
-    ser.write(b"R\r\n")
+    reset()
     ser.close()
     
     if had_diff:
